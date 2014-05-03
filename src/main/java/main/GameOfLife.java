@@ -1,18 +1,17 @@
 package main;
 
-import java.util.Map;
+import java.util.Set;
 
 public class GameOfLife {
-	private Map<Integer,Integer> world;
+	private Set<int []> world;
 
-	public Map<Integer,Integer> getWord() {
+	public Set<int[]> getWorld() {
 		return world;
 	}
-
-	public void setWord(Map<Integer,Integer> world) {
+	public void setWorld(Set<int []> world) {
 		this.world = world;
 	}
-	
+
 	public void tik(){
 		world.clear();
 	}
