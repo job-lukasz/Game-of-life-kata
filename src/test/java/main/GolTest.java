@@ -43,6 +43,7 @@ public class GolTest {
 		afterTikWorld.add(new Cell(0, 0));
 		Assert.assertEquals(game.getWorld().equals(afterTikWorld), true);
 	}
+	
 	@Test
 	public void ThreeNeighboursCellAlive() {
 		// Arrange
@@ -55,6 +56,21 @@ public class GolTest {
 		game.tik();
 		// Assert
 		afterTikWorld.add(new Cell(0, 0));
+		Assert.assertEquals(game.getWorld().equals(afterTikWorld), true);
+	}
+	
+	@Test
+	public void MoreThenThreeNeighboursCellDie() {
+		// Arrange
+		beforeWorld.add(new Cell(-1, -1));
+		beforeWorld.add(new Cell(0, 0));
+		beforeWorld.add(new Cell(1, 1));
+		beforeWorld.add(new Cell(-1,1));
+		beforeWorld.add(new Cell(1,-1));
+		// Act
+		game.setWorld(beforeWorld);
+		game.tik();
+		// Assert
 		Assert.assertEquals(game.getWorld().equals(afterTikWorld), true);
 	}
 }
