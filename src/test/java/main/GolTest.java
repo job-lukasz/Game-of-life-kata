@@ -33,9 +33,9 @@ public class GolTest {
 	@Test
 	public void TwoNeighboursCellAlive() {
 		// Arrange
-		beforeWorld.add(new Cell(-1, 0));
+		beforeWorld.add(new Cell(-1, 1));
 		beforeWorld.add(new Cell(0, 0));
-		beforeWorld.add(new Cell(1, 0));
+		beforeWorld.add(new Cell(1, -1));
 		// Act
 		game.setWorld(beforeWorld);
 		game.tik();
@@ -56,6 +56,8 @@ public class GolTest {
 		game.tik();
 		// Assert
 		afterTikWorld.add(new Cell(0, 0));
+		afterTikWorld.add(new Cell(-1, 0));
+		afterTikWorld.add(new Cell(0, 1));
 		Assert.assertEquals(game.getWorld().equals(afterTikWorld), true);
 	}
 	
@@ -71,6 +73,24 @@ public class GolTest {
 		game.setWorld(beforeWorld);
 		game.tik();
 		// Assert
+		afterTikWorld.add(new Cell(0,1));
+		afterTikWorld.add(new Cell(0,-1));
+		afterTikWorld.add(new Cell(1,0));
+		afterTikWorld.add(new Cell(-1,0));
 		Assert.assertEquals(game.getWorld().equals(afterTikWorld), true);
 	}
+	@Test
+	public void threeNeighboursCellRevive() {
+		// Arrange
+		beforeWorld.add(new Cell(-1, -1));
+		beforeWorld.add(new Cell(1, 1));
+		beforeWorld.add(new Cell(1,-1));
+		// Act
+		game.setWorld(beforeWorld);
+		game.tik();
+		// Assert
+		afterTikWorld.add(new Cell(0, 0));
+		Assert.assertEquals(game.getWorld().equals(afterTikWorld), true);
+	}
+	
 }

@@ -19,6 +19,7 @@ public class GameOfLife {
 
 	public void tik() {
 		worldAfterTik = new HashSet<Cell>();
+		reviveCells();
 		killCells();
 		worldBeforeTik = worldAfterTik;
 	}
@@ -33,7 +34,24 @@ public class GameOfLife {
 			}
 		}
 	}
-
+	
+	private void reviveCells() {
+		Iterator<Cell> worldIterator = worldBeforeTik.iterator();
+		while (worldIterator.hasNext()) {
+			Cell cell = worldIterator.next();
+			Cell reviveCandidates[] = new Cell[8];
+			for (int i = 0; i < 8; i++) {
+				reviveCandidates[i]=new Cell(cell.getX() + neighboursTable[i][0], cell.getY() + neighboursTable[i][1]);
+			}
+			for (int i = 0; i < 8; i++) {
+				int neighbours = countNeighbours(reviveCandidates[i]);
+				if (neighbours == 3) {
+					worldAfterTik.add(reviveCandidates[i]);
+				}
+			}
+		}
+	}
+	
 	private int countNeighbours(Cell cell) {
 		int neighbours = 0;
 		for (int i = 0; i < 8; i++) {
