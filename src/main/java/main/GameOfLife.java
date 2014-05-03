@@ -28,30 +28,28 @@ public class GameOfLife {
 		Iterator<Cell> worldIterator = worldBeforeTik.iterator();
 		while (worldIterator.hasNext()) {
 			Cell cell = worldIterator.next();
-			int neighbours = countNeighbours(cell);
-			if (neighbours == 2 || neighbours == 3) {
-				worldAfterTik.add(cell);
-			}
+			shouldCellLive(cell, false);
 		}
 	}
-	
+
 	private void reviveCells() {
 		Iterator<Cell> worldIterator = worldBeforeTik.iterator();
 		while (worldIterator.hasNext()) {
 			Cell cell = worldIterator.next();
-			Cell reviveCandidates[] = new Cell[8];
 			for (int i = 0; i < 8; i++) {
-				reviveCandidates[i]=new Cell(cell.getX() + neighboursTable[i][0], cell.getY() + neighboursTable[i][1]);
-			}
-			for (int i = 0; i < 8; i++) {
-				int neighbours = countNeighbours(reviveCandidates[i]);
-				if (neighbours == 3) {
-					worldAfterTik.add(reviveCandidates[i]);
-				}
+				Cell reviveCandidate = new Cell(cell.getX() + neighboursTable[i][0], cell.getY() + neighboursTable[i][1]);
+				shouldCellLive(reviveCandidate, true);
 			}
 		}
 	}
-	
+
+	private void shouldCellLive(Cell cell, boolean isRevive) {
+		int neighbours = countNeighbours(cell);
+		if ((neighbours == 2 && !isRevive) || neighbours == 3) {
+			worldAfterTik.add(cell);
+		}
+	}
+
 	private int countNeighbours(Cell cell) {
 		int neighbours = 0;
 		for (int i = 0; i < 8; i++) {
