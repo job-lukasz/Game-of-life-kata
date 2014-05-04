@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class GameOfLife {
 	private Set<Cell> worldBeforeTik, worldAfterTik;
-	private final int[][] neighboursTable = new int[][] { { -1, 1 }, { 0, 1 }, { 1, 1 }, { -1, 0 }, { 1, 0 }, { -1, -1 }, { 0, -1 },
-			{ 1, -1 } };
+	private final int[][] neighboursPositionTable = new int[][] { { -1, 1 }, { 0, 1 }, { 1, 1 }, { -1, 0 }, { 1, 0 }, { -1, -1 },
+			{ 0, -1 }, { 1, -1 } };
 
 	public Set<Cell> getWorld() {
 		return worldBeforeTik;
@@ -25,38 +25,48 @@ public class GameOfLife {
 	}
 
 	private void killCells() {
-		Iterator<Cell> worldIterator = worldBeforeTik.iterator();
-		while (worldIterator.hasNext()) {
-			Cell cell = worldIterator.next();
-			shouldCellLive(cell, false);
-		}
+		updateCells(worldBeforeTik.iterator(), false);
 	}
 
 	private void reviveCells() {
+		Set<Cell> reviveCandidates = findCandidatesToRevive();
+		updateCells(reviveCandidates.iterator(), true);
+	}
+
+	private Set<Cell> findCandidatesToRevive() {
 		Iterator<Cell> worldIterator = worldBeforeTik.iterator();
+		Set<Cell> reviveCandidates = new HashSet<Cell>();
 		while (worldIterator.hasNext()) {
 			Cell cell = worldIterator.next();
 			for (int i = 0; i < 8; i++) {
-				Cell reviveCandidate = new Cell(cell.getX() + neighboursTable[i][0], cell.getY() + neighboursTable[i][1]);
-				shouldCellLive(reviveCandidate, true);
+				reviveCandidates.add(createNeighbourCell(cell, i));
 			}
 		}
+		return reviveCandidates;
 	}
 
-	private void shouldCellLive(Cell cell, boolean isRevive) {
-		int neighbours = countNeighbours(cell);
-		if ((neighbours == 2 && !isRevive) || neighbours == 3) {
-			worldAfterTik.add(cell);
+	private void updateCells(Iterator<Cell> worldIterator, boolean isReviving) {
+		while (worldIterator.hasNext()) {
+			Cell cell = worldIterator.next();
+			int neighbours = countNeighbours(cell);
+			if ((neighbours == 2 && !isReviving) || neighbours == 3) {
+				worldAfterTik.add(cell);
+			}
 		}
 	}
 
 	private int countNeighbours(Cell cell) {
 		int neighbours = 0;
 		for (int i = 0; i < 8; i++) {
-			if (worldBeforeTik.contains(new Cell(cell.getX() + neighboursTable[i][0], cell.getY() + neighboursTable[i][1]))) {
+			if (worldBeforeTik.contains(createNeighbourCell(cell, i))) {
 				neighbours++;
 			}
 		}
 		return neighbours;
+	}
+
+	private Cell createNeighbourCell(Cell cell, int neighbourPosition) {
+		return new Cell(cell.getX() + neighboursPositionTable[neighbourPosition][0], cell.getY()
+				+ neighboursPositionTable[neighbourPosition][1]);
 	}
 }

@@ -19,7 +19,7 @@ public class GolTest {
 	}
 
 	@Test
-	public void LessNeighboursThenTwoCellDie() {
+	public void lessNeighboursThenTwoCellDie() {
 		// Arrange
 
 		beforeWorld.add(new Cell(0, 0));
@@ -31,7 +31,7 @@ public class GolTest {
 	}
 
 	@Test
-	public void TwoNeighboursCellAlive() {
+	public void twoNeighboursCellAlive() {
 		// Arrange
 		beforeWorld.add(new Cell(-1, 1));
 		beforeWorld.add(new Cell(0, 0));
@@ -45,7 +45,7 @@ public class GolTest {
 	}
 	
 	@Test
-	public void ThreeNeighboursCellAlive() {
+	public void threeNeighboursCellAlive() {
 		// Arrange
 		beforeWorld.add(new Cell(-1, -1));
 		beforeWorld.add(new Cell(0, 0));
@@ -62,7 +62,7 @@ public class GolTest {
 	}
 	
 	@Test
-	public void MoreThenThreeNeighboursCellDie() {
+	public void moreThenThreeNeighboursCellDie() {
 		// Arrange
 		beforeWorld.add(new Cell(-1, -1));
 		beforeWorld.add(new Cell(0, 0));
